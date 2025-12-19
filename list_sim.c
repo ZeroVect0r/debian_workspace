@@ -142,23 +142,44 @@ struct node *sort_min(struct node *head)
 
 struct node *josephes(struct node *head, int n)
 {
-        if (!head || !head->next)
-                return 0;
+        if (head == NULL)
+                return NULL;
+        if (head->next == NULL)
+                return head;
+        if (n <= 0)
+                return head;
 
-        int count  = 0;
-        int number = 1;
-        struct node *curr;
-        for (curr = head; curr != NULL; curr = curr->next) {
+
+        int count = 1;
+        struct node *tail = head;
+        while (tail->next != NULL) {
+                tail = tail->next;
                 count++;
         }
 
-        curr->next = head;
 
-        struct node *pre = head;
-        for (curr = head->next; number <= n; curr = curr->next, pre = pre->next, number++) {
-                if (number == n) {
-                        pre->next = curr->next;
+        tail->next = head;
+
+        struct node *curr = head;
+        struct node *prev = tail;
+
+
+        while (count > 1) {
+
+                int steps = (n - 1) % count;
+                for (int i = 0; i < steps; i++) {
+                        prev = curr;
+                        curr = curr->next;
                 }
+
+                prev->next = curr->next;
+                struct node *to_free = curr;
+                curr = prev->next;
+                free(to_free);
+                count--;
         }
+
+
+        curr->next = NULL;
         return curr;
 }
