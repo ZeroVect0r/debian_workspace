@@ -12,6 +12,8 @@ struct node *del_list_tail (struct node *head);
 struct node *reverse_list  (struct node *head);
 struct node *del_from_tail (struct node *head, int n);
 struct node *josephes      (struct node *head, int n);
+struct node *compress_list (struct node *head);
+struct node *del_list_all  (struct node *head);
 
 int main()
 {
@@ -202,3 +204,40 @@ struct node *josephes(struct node *head, int n)
         return curr;
 }
 
+struct node *compress_list(struct node *head)
+{
+        int data[100];
+        struct node *curr = head;
+
+        for (int i = 0; i < 100; i++)
+                data[i] = 0;
+
+        while (curr != NULL) {
+                data[curr->ele]++;
+                curr = curr->next;
+        }
+
+        curr = head;
+        struct node *prev = NULL;
+
+        while (curr != NULL) {
+                if (data[curr->ele] > 1) {
+                        data[curr->ele]--;
+
+                        struct node *to_del = curr;
+
+                        if (prev == NULL) {
+                                head = curr->next;
+                                curr = head;
+                        } else {
+                                prev->next = curr->next;
+                                curr = prev->next;
+                        }
+                        free(to_del);
+                } else {
+                        prev = curr;
+                        curr = curr->next;
+                }
+        }
+        return head;
+}
