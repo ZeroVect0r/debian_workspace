@@ -3,7 +3,7 @@
 
 struct node {
         char ele;
-        struct node * next;
+        struct node *next;
 };
 
 struct node *crt_list      (int len);
