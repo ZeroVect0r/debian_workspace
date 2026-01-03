@@ -17,7 +17,8 @@ struct node *del_list_all  (struct node *head);
 
 int main()
 {
-        printf("debug.");
+        struct node *head = crt_list(10);
+        return 0;
 }
 
 struct node *crt_list (int len) 
